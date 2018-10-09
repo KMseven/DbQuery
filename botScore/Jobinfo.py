@@ -2,13 +2,14 @@ from botScore.mongoQuery import Mongo
 
 
 class jobinfo():
-    def __init__(self,host,db,collection):
+    def __init__(self,host,db,collection,refNum="PHENA0059"):
         mongo=Mongo(host)
         mongo.get_db(db, collection)
         self.mongo=mongo
+        self.refNum=refNum
 
-    def getScore(self,client):
-        data=self.mongo.query_db(self.get_query(client))
+    def getScore(self):
+        data=self.mongo.query_db(self.get_query(self.refNum))
         return [data[0]["JobViews"]/(data[0]["JobsDisplayed"]+1),data[0]["ApplyClicks"]/data[0]["JobViews"]]
 
 
