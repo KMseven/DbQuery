@@ -2,14 +2,15 @@ import json
 import threading
 
 from kafka import KafkaConsumer
-import time
-from mongoQuery import Mongo
+from botScore.mongoQuery import Mongo
 
 
 class Consumer(threading.Thread):
     daemon = True
-    def __init__(self,mongo):
+    def __init__(self,host,db,collection):
         threading.Thread.__init__(self)
+        mongo=Mongo(host)
+        mongo.get_db(db, collection)
         self.mongo=mongo
         self.count=0
         self.count1=0
@@ -18,6 +19,7 @@ class Consumer(threading.Thread):
         consumer = KafkaConsumer(bootstrap_servers="dev-kafka01:9092",
                                  auto_offset_reset='earliest',
                                  enable_auto_commit=True,
+                                 group_id='my-group',
                                  value_deserializer=lambda m: json.loads(m.decode('utf-8')))
 
         consumer.subscribe(["Phenom_Track_PHENA0059_TOPIC", "Phenom_Track_ESMEUS_TOPIC", "Phenom_Track_EVCOUS_TOPIC",
@@ -27,12 +29,11 @@ class Consumer(threading.Thread):
             self.count+=1
             client=message.value["clientToken"]
             if (message.value["event"] == "job_click"):
-                self.count1+=1
                 mongo.update_db(self.create_query(client,"JobViews"))
             elif(message.value["event"] == "apply_click"):
-                self.count2+=1
                 mongo.update_db(self.create_query(client,"ApplyClicks"))
-            print(self.count,self.count1,self.count2)
+
+
 
     def create_query(self,id,value):
         return {"_id" : id},{"$inc" : {value : 1}}
@@ -43,10 +44,10 @@ class Consumer(threading.Thread):
 
 
 if __name__ == "__main__":
-    mongo = Mongo(
-        "mongodb://pheglodev:goodDevelopers%401@dev-ng-mongo1.phenompeople.com:27017,dev-ng-mongo2.phenompeople.com:27017,dev-ng-mongo3.phenompeople.com:27017/mongo_ngcc_dev?readPreference=primary")
-    mongo.get_db("mongo_chatbot", "MISC")
-    threads = Consumer(mongo)
+    host="mongodb://esuser:D5l09tt5%24l95n%21@deloitteg-db1.imomentous.co:27017,deloitteg-db2.imomentous.co:27017,deloitteg-db3.imomentous.co:27017/admin?readPreference=primary"
+    db="mongo_chatbot"
+    collection="MISC"
+    threads = Consumer(host,db,collection)
     threads.start()
     while threads.is_alive():
         threads.join()
