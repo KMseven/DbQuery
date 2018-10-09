@@ -23,6 +23,12 @@ class Mongo():
             complete_data.append(data)
         return complete_data
 
+    def write_db(self,query):
+        self.db.insert(query)
+
+    def update_db(self,query):
+        self.db.update_one(query[0],query[1], upsert=True)
+
 if __name__ == "__main__":
     mongo=Mongo("mongodb://pheglodev:goodDevelopers%401@dev-ng-mongo1.phenompeople.com:27017,dev-ng-mongo2.phenompeople.com:27017,dev-ng-mongo3.phenompeople.com:27017/mongo_ngcc_dev?readPreference=primary")
     mongo.get_db("mongo_chatbot","users");

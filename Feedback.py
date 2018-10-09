@@ -1,8 +1,6 @@
 import datetime
 
 from mongoQuery import Mongo
-
-
 class Feedback():
     def __init__(self,mongo):
         self.mongo=mongo
@@ -18,6 +16,6 @@ if __name__ == "__main__":
     mongo = Mongo(
         "mongodb://esuser:D5l09tt5%24l95n%21@deloitteg-db1.imomentous.co:27017,deloitteg-db2.imomentous.co:27017,deloitteg-db3.imomentous.co:27017/admin?readPreference=primary")
     mongo.get_db("mongo_chatbot", "USER_CONVERSATIONS");
-    print("F:",Feedback(mongo).get_score())
+    print("G:",Feedback(mongo).get_score())
 
 
