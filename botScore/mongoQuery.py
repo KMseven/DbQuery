@@ -15,11 +15,11 @@ class Mongo():
         self.db=mongoClient[db][collection]
         return db
 
-    def query_db(self,query,get_length=False):
+    def query_db(self,query,get_length=False,projection={}):
         if(get_length):
             return self.db.find(query).count()
         complete_data=[]
-        for data in self.db.find(query):
+        for data in self.db.find(query,projection):
             complete_data.append(data)
         return complete_data
 
