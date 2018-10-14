@@ -1,6 +1,4 @@
 from pymongo import MongoClient
-from pymongo.database import Database
-
 
 class Mongo():
     def __init__(self,host=None,port=None,username=None,password=None):
@@ -13,7 +11,7 @@ class Mongo():
     def get_db(self,db,collection):
         mongoClient=MongoClient(self.host)
         self.db=mongoClient[db][collection]
-        return db
+        return self.db
 
     def query_db(self,query,get_length=False,projection={}):
         if(get_length):
