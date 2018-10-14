@@ -13,9 +13,8 @@ class sessionInfo():
         return [{"id" : data["user_details"]["ptSessionId"]} for data in complete_data  if "user_details" in data]
 
     def getConversations(self,session_id=None,from_dt=None,to_dt=None):
-        complete_data=self.mongo.query_db({"user_details.botResponse.messages"},self.get_query(from_dt,to_dt,session_id))
+        complete_data=self.mongo.query_db(self.get_query(from_dt,to_dt,session_id),projection={"user_details.botResponse.messages"})
         return [data["user_details"]["botResponse"]["messages"] for data in complete_data]
-
 
     def get_query(self,from_dt,to_dt,session_id=None):
         query=[]
