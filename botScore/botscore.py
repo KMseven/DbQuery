@@ -4,9 +4,11 @@ from botScore.leadgen import leadgen
 
 
 class botscore():
-    def __init__(self):
-        self.host="mongodb://pheglodev:goodDevelopers%401@dev-ng-mongo1.phenompeople.com:27017,dev-ng-mongo2.phenompeople.com:27017,dev-ng-mongo3.phenompeople.com:27017/mongo_ngcc_dev?readPreference=primary"
-        self.db="mongo_chatbot"
+    def __init__(self,host,db):
+        #self.host="mongodb://pheglodev:goodDevelopers%401@dev-ng-mongo1.phenompeople.com:27017,dev-ng-mongo2.phenompeople.com:27017,dev-ng-mongo3.phenompeople.com:27017/mongo_ngcc_dev?readPreference=primary"
+        self.host=host
+        #self.db="mongo_chatbot"
+        self.db=db
     def getScore(self,refNum):
         A=0
         B=0
