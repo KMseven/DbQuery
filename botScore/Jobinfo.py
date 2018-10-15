@@ -9,7 +9,7 @@ class jobinfo():
         self.refNum=refNum
 
     def getScore(self):
-        data=self.mongo.query_db(self.get_query(self.refNum))
+        data=self.mongo.query_db(self.get_query(self.refNum),projection={"JobsDisplayed","JobViews","ApplyClicks"})
         return [data[0]["JobViews"]/(data[0]["JobsDisplayed"]+1),data[0]["ApplyClicks"]/data[0]["JobViews"]]
 
 

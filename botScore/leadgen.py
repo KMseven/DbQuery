@@ -11,7 +11,7 @@ class leadgen():
         self.mongo=mongo
         self.refNum=refNum
 
-    def get_score(self,from_dt='2018-09-06',to_dt='2018-09-06'):
+    def get_score(self,from_dt='2018-06-06',to_dt='2018-10-06'):
         from_dt=datetime.datetime.strptime(from_dt, '%Y-%m-%d')
         to_dt=datetime.datetime.strptime(to_dt, '%Y-%m-%d')
         no_of_leads_generated=self.mongo.query_db({"userDetails.userName": {"$exists": True}, "userDetails.userContact": {"$exists": True},
