@@ -5,6 +5,7 @@ from flask import Flask
 
 from botScore.mongoQuery import Mongo
 from sessioninfo.sessionInfo import sessionInfo
+from unknownIntents.UnknownIntent import UnknownIntent
 
 app = Flask(__name__)
 host = "mongodb://pheglodev:goodDevelopers%401@dev-ng-mongo1.phenompeople.com:27017,dev-ng-mongo2.phenompeople.com:27017,dev-ng-mongo3.phenompeople.com:27017/mongo_ngcc_dev?readPreference=primary"
@@ -28,10 +29,19 @@ def getSessionInfo():
 def getCoversations():
     content=request.get_json()
     collection="USER_CONVERSATIONS"
-    mongo = Mongo(host)
-    mongo.get_db(db, collection)
-    data = sessionInfo(host, db, collection,content["refNum"]).getConversations(content["session_id"],content["from"],content["to"])
+    data = UnknownIntent(host,db,collection).getDocForUid(content["from"],content["to"],content["refNum"])
     return json.dumps(data)
+
+@app.route("/unknown_intent",methods=["POST"])
+def getUnknownIntent():
+    content=request.get_json()
+    collection="USER_CONVERSATIONS"
+    data = UnknownIntent(host,db,collection).getUidForUnknownIntent(content["from"],content["to"],content["refNum"])
+    return json.dumps(data)
+
+
+
+
 if __name__== "__main__":
     mongo = Mongo(host)
     app.run(host='localhost', port=5000, debug=True)
