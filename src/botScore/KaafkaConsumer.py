@@ -38,9 +38,6 @@ class Consumer(threading.Thread):
         return {"_id" : id},{"$inc" : {value : 1}}
 
 
-""
-
-
 
 if __name__ == "__main__":
     host =get_db_url()
