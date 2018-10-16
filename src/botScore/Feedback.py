@@ -73,7 +73,6 @@ class Feedback():
         return(positive_feedback - negative_feedback)/times_asked_for_feedback
 
 
-
 if __name__ == "__main__":
     host =get_db_url()
     db = get_db_name()
